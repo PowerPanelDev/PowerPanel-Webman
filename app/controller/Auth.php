@@ -31,8 +31,8 @@ class Auth extends Model
     {
         try {
             $data = Validate::Input($request, [
-                'name' => 'required',
-                'password' => 'min:6'
+                'name'      => 'required',
+                'password'  => 'required|min:6'
             ]);
 
             $user = User::wherePassword($data['password'])->where('name', $data['name'])->firstOrFail();
