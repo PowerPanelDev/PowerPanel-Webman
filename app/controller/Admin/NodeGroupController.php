@@ -2,10 +2,10 @@
 
 namespace app\controller\Admin;
 
+use app\class\Request;
 use app\model\NodeGroup;
 use app\util\Validate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use support\Request;
 
 class NodeGroupController
 {
@@ -29,7 +29,7 @@ class NodeGroupController
     public function Create(Request $request)
     {
         try {
-            NodeGroup::create(Validate::Input($request, self::$rules));
+            NodeGroup::create($request->validate(self::$rules));
             return json(['code' => 200]);
         } catch (\Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
@@ -53,7 +53,7 @@ class NodeGroupController
     public function Update(Request $request, int $groupId)
     {
         try {
-            NodeGroup::findOrFail($groupId)->fill(Validate::Input($request, self::$rules))->save();
+            NodeGroup::findOrFail($groupId)->fill($request->validate(self::$rules))->save();
 
             return json(['code' => 200]);
         } catch (ModelNotFoundException $e) {

@@ -2,12 +2,10 @@
 
 namespace app\controller\Admin;
 
-use app\model\Game;
+use app\class\Request;
 use app\model\User;
 use app\util\Validate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use support\Db;
-use support\Request;
 
 class AdminUserController
 {
@@ -35,7 +33,7 @@ class AdminUserController
             $rules = self::$rules;
             $rules['password'] = 'required|min:6';
 
-            $data = Validate::Input($request, $rules);
+            $data = $request->validate($rules);
 
             if (User::where('name', $data['name'])->orWhere('email', $data['email'])->first())
                 throw new \Exception('已存在同名或同邮箱用户。', 400);
@@ -68,7 +66,7 @@ class AdminUserController
     public function Update(Request $request, int $userId)
     {
         try {
-            $data = Validate::Input($request, self::$rules);
+            $data = $request->validate(self::$rules);
             $user = User::findOrFail($userId)->fill($data);
             if ($data['password']) $user->passwd($data['password']);
             $user->save();

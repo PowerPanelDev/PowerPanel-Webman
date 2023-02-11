@@ -2,11 +2,11 @@
 
 namespace app\controller;
 
+use app\class\Request;
 use app\model\User;
 use app\util\Validate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use support\Model;
-use support\Request;
 use support\Response;
 
 class Auth extends Model
@@ -30,7 +30,9 @@ class Auth extends Model
     public function Login(Request $request)
     {
         try {
-            $data = Validate::Input($request, [
+            var_dump(get_class($request));
+
+            $data = $request->validate([
                 'name'      => 'required',
                 'password'  => 'required|min:6'
             ]);
