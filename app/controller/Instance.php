@@ -19,15 +19,12 @@ class Instance
         ]);
     }
 
-    // TODO 检查权限
     public function GetDetail(Request $request): Response
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('detail')) throw new \Exception('此账号无权操作此实例。', 401);
             return json([
                 'code' => 200,
-                'attributes' => $instance->load('allocation')
+                'attributes' => getInstance($request)->load('allocation')
             ]);
         } catch (\Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
@@ -47,7 +44,7 @@ class Instance
                 'console.stats',
                 'console.write'
             ]);
-            if (!$relationships) throw new \Exception('此账号无权连接控制台。', 401);
+            if (!$relationships) throw new \Exception('实例权限不足。', 401);
 
             $token = $instance
                 ->getTokenHandler()
@@ -66,11 +63,8 @@ class Instance
 
     public function Rename(Request $request)
     {
-        try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('rename'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-            $instance->rename($request->post('name'));
+        try {;
+            getInstance($request)->rename($request->post('name'));
             return json(['code' => 200]);
         } catch (Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);

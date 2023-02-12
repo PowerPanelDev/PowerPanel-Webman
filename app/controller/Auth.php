@@ -30,8 +30,6 @@ class Auth extends Model
     public function Login(Request $request)
     {
         try {
-            var_dump(get_class($request));
-
             $data = $request->validate([
                 'name'      => 'required',
                 'password'  => 'required|min:6'

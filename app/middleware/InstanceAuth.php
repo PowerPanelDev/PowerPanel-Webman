@@ -15,9 +15,13 @@ class InstanceAuth implements MiddlewareInterface
             $query->where('user_id', getUser($request)->id);
         }])->find($request->route->param('insId'));
 
-        if ($ins->relationship && $ins->relationship->checkPermission()) {
+        // 检查用户是否拥有实例的对应权限
+        if (
+            $ins->relationship
+            && $ins->relationship->checkPermission($request->route->param('relationship'))
+        ) {
             $request->instance = $ins;
             return $handler($request);
-        } else return json(['code' => 401, 'msg' => '权限不足。'])->withStatus(401);
+        } else return json(['code' => 401, 'msg' => '实例权限不足。'])->withStatus(401);
     }
 }

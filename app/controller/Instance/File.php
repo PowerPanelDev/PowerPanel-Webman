@@ -11,12 +11,9 @@ class File
     public function GetList(Request $request): Response
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.list'))
-                throw new \Exception('此账号无权操作此实例。', 401);
             return json([
                 'code' => 200,
-                'data' => $instance->getFileHandler()->list($request->get('path'))
+                'data' => getInstance($request)->getFileHandler()->list($request->get('path'))
             ]);
         } catch (Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
@@ -26,10 +23,7 @@ class File
     public function Rename(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.rename'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-            $instance->getFileHandler()->rename($request->post('from'), $request->post('to'));
+            getInstance($request)->getFileHandler()->rename($request->post('from'), $request->post('to'));
             return json(['code' => 200]);
         } catch (Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
@@ -39,10 +33,7 @@ class File
     public function Compress(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.compress'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-            $instance->getFileHandler()->compress($request->post('base'), $request->post('targets'));
+            getInstance($request)->getFileHandler()->compress($request->post('base'), $request->post('targets'));
             return json(['code' => 200]);
         } catch (Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
@@ -52,10 +43,7 @@ class File
     public function Decompress(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.decompress'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-            $instance->getFileHandler()->decompress($request->post('path'));
+            getInstance($request)->getFileHandler()->decompress($request->post('path'));
             return json(['code' => 200]);
         } catch (Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
@@ -65,10 +53,7 @@ class File
     public function Delete(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.delete'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-            $instance->getFileHandler()->delete($request->post('base'), $request->post('targets'));
+            getInstance($request)->getFileHandler()->delete($request->post('base'), $request->post('targets'));
             return json(['code' => 200]);
         } catch (Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
@@ -78,13 +63,10 @@ class File
     public function GetPermission(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.permission.get'))
-                throw new \Exception('此账号无权操作此实例。', 401);
             return json([
                 'code' => 200,
                 'attributes' => [
-                    'permission' => $instance->getFileHandler()->permission($request->post('path'))
+                    'permission' => getInstance($request)->getFileHandler()->permission($request->post('path'))
                 ]
             ]);
         } catch (Throwable $th) {
@@ -95,10 +77,7 @@ class File
     public function SetPermission(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.permission.get'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-            $instance->getFileHandler()->permission($request->post('path'), $request->post('permission'));
+            getInstance($request)->getFileHandler()->permission($request->post('path'), $request->post('permission'));
             return json([
                 'code' => 200
             ]);
@@ -110,10 +89,7 @@ class File
     public function Download(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.download'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-            $token = $instance->getFileHandler()->download($request->post('path'));
+            $token = getInstance($request)->getFileHandler()->download($request->post('path'));
             return json([
                 'code' => 200,
                 'attributes' => [
@@ -128,10 +104,7 @@ class File
     public function Upload(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.upload'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-            $token = $instance->getFileHandler()->upload($request->post('base'));
+            $token = getInstance($request)->getFileHandler()->upload($request->post('base'));
             return json([
                 'code' => 200,
                 'attributes' => [
@@ -147,10 +120,7 @@ class File
     public function Create(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.create'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-            $instance->getFileHandler()->create($request->post('base'), $request->post('type'), $request->post('name'));
+            getInstance($request)->getFileHandler()->create($request->post('base'), $request->post('type'), $request->post('name'));
             return json(['code' => 200]);
         } catch (Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
@@ -160,14 +130,10 @@ class File
     public function Read(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.read'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-
             return json([
                 'code' => 200,
                 'attributes' => [
-                    'content' => base64_encode($instance->getFileHandler()->read($request->post('path')))
+                    'content' => base64_encode(getInstance($request)->getFileHandler()->read($request->post('path')))
                 ]
             ]);
         } catch (Throwable $th) {
@@ -178,12 +144,7 @@ class File
     public function Save(Request $request)
     {
         try {
-            $instance = getInstance($request);
-            if (!$instance->relationship->checkPermission('file.read'))
-                throw new \Exception('此账号无权操作此实例。', 401);
-
-            $instance->getFileHandler()->save($request->post('path'), $request->post('content'));
-
+            getInstance($request)->getFileHandler()->save($request->post('path'), $request->post('content'));
             return json([
                 'code' => 200
             ]);

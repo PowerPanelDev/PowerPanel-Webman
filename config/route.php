@@ -43,22 +43,22 @@ Route::group('/api/public', function () {
 })->middleware([CSRFValidate::class, PublicAuth::class]);
 
 Route::group('/api/public/ins/{insId:\d+}', function () {
-    Route::get('',          [Instance::class, 'GetDetail']);
+    Route::get('',          [Instance::class, 'GetDetail'])->setParams(['relationship' => 'detail']);
     Route::get('/console',  [Instance::class, 'GetConsole']);
-    Route::put('/rename',   [Instance::class, 'Rename']);
+    Route::put('/rename',   [Instance::class, 'Rename'])->setParams(['relationship' => 'rename']);
 
-    Route::get('/files',                [File::class, 'GetList']);
-    Route::post('/files/rename',        [File::class, 'Rename']);
-    Route::post('/files/compress',      [File::class, 'Compress']);
-    Route::post('/files/decompress',    [File::class, 'Decompress']);
-    Route::post('/files/delete',        [File::class, 'Delete']);
-    Route::post('/files/permission',    [File::class, 'GetPermission']);
-    Route::put('/files/permission',     [File::class, 'SetPermission']);
-    Route::post('/files/download',      [File::class, 'Download']);
-    Route::post('/files/upload',        [File::class, 'Upload']);
-    Route::post('/files/create',        [File::class, 'Create']);
-    Route::post('/files/read',          [File::class, 'Read']);
-    Route::post('/files/save',          [File::class, 'Save']);
+    Route::get('/files',                [File::class, 'GetList'])->setParams(['relationship' => 'file.list']);
+    Route::post('/files/rename',        [File::class, 'Rename'])->setParams(['relationship' => 'file.rename']);
+    Route::post('/files/compress',      [File::class, 'Compress'])->setParams(['relationship' => 'file.compress']);
+    Route::post('/files/decompress',    [File::class, 'Decompress'])->setParams(['relationship' => 'file.decompress']);
+    Route::post('/files/delete',        [File::class, 'Delete'])->setParams(['relationship' => 'file.delete']);
+    Route::post('/files/permission',    [File::class, 'GetPermission'])->setParams(['relationship' => 'file.permission.get']);
+    Route::put('/files/permission',     [File::class, 'SetPermission'])->setParams(['relationship' => 'file.permission.set']);
+    Route::post('/files/download',      [File::class, 'Download'])->setParams(['relationship' => 'file.download']);
+    Route::post('/files/upload',        [File::class, 'Upload'])->setParams(['relationship' => 'file.upload']);
+    Route::post('/files/create',        [File::class, 'Create'])->setParams(['relationship' => 'file.create']);
+    Route::post('/files/read',          [File::class, 'Read'])->setParams(['relationship' => 'file.read']);
+    Route::post('/files/save',          [File::class, 'Save'])->setParams(['relationship' => 'file.save']);
 })->middleware([CSRFValidate::class, PublicAuth::class, InstanceAuth::class]);
 
 Route::group('/api/admin', function () {
