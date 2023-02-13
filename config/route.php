@@ -26,6 +26,7 @@ use app\controller\Instance;
 use app\controller\Instance\File;
 use app\controller\NodeAPI;
 use app\middleware\Auth\AdminAuth;
+use app\middleware\Auth\APIAuth;
 use app\middleware\Auth\NodeAuth;
 use app\middleware\Auth\PublicAuth;
 use Webman\Route;
@@ -39,8 +40,8 @@ Route::group('/api/public', function () {
 });
 
 Route::group('/api/public', function () {
-    Route::get('/ins', [Instance::class, 'GetList']);
-})->middleware([CSRFValidate::class, PublicAuth::class]);
+    Route::get('/ins', [Instance::class, 'GetList'])->setParams(['permission' => 'admin.ins.list']);
+})->middleware([APIAuth::class]);
 
 Route::group('/api/public/ins/{insId:\d+}', function () {
     Route::get('',          [Instance::class, 'GetDetail'])->setParams(['relationship' => 'detail']);

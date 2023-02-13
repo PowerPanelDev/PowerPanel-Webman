@@ -1,8 +1,8 @@
 <?php
 
+use app\class\Request;
 use app\model\Instance;
 use app\model\User;
-use support\Request;
 
 function getInstance(Request $request): Instance
 {
