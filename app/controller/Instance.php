@@ -2,8 +2,8 @@
 
 namespace app\controller;
 
+use app\class\Request;
 use app\handler\Instance\TokenHandler;
-use support\Request;
 use support\Response;
 use Throwable;
 
@@ -13,7 +13,7 @@ class Instance
     {
         return json([
             'code' => 200,
-            'data' => getUser($request)->instances()->with(['stats' => function ($query) {
+            'data' => $request->getUser()->instances()->with(['stats' => function ($query) {
                 $query->select(['ins_id', 'status']);
             }])->get()
         ]);
@@ -24,7 +24,7 @@ class Instance
         try {
             return json([
                 'code' => 200,
-                'attributes' => getInstance($request)->load('allocation')
+                'attributes' => $request->getInstance()->load('allocation')
             ]);
         } catch (\Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
@@ -34,7 +34,7 @@ class Instance
     public function GetConsole(Request $request): Response
     {
         try {
-            $instance = getInstance($request);
+            $instance = $request->getInstance();
 
             $relationships = $instance->relationship->checkPermission([
                 'console.status.get',
@@ -64,7 +64,7 @@ class Instance
     public function Rename(Request $request)
     {
         try {;
-            getInstance($request)->rename($request->post('name'));
+            $request->getInstance()->rename($request->post('name'));
             return json(['code' => 200]);
         } catch (Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
