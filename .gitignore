@@ -7,3 +7,4 @@
 /tests/.phpunit.result.cache
 /config/SALT
 /.env
+/windows.php
