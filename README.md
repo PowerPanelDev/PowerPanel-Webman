@@ -4,8 +4,7 @@
 
 ```
 composer install
-cp .env.example .env
-# 手动修改配置文件
+php webman setup
 ```
 
 #### 运行
