@@ -109,7 +109,7 @@ class File
                 'code' => 200,
                 'attributes' => [
                     'url' => $token->node->getAddress() . '/api/public/files/upload?token=' . $token->token,
-                    'max_slice_size' => $token->node->max_upload_slice_size
+                    'max_slice_size' => json_decode($token->node->addition, true)['max_upload_slice_size']
                 ]
             ]);
         } catch (Throwable $th) {

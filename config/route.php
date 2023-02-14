@@ -100,6 +100,7 @@ Route::group('/api/admin', function () {
 })->middleware([APIAuth::class]);
 
 Route::group('/api/node', function () {
+    Route::get('/config',       [NodeAPI::class, 'GetConfig']);
     Route::get('/ins',          [NodeAPI::class, 'GetList']);
     Route::post('/ins/detail',  [NodeAPI::class, 'GetDetail']);
     Route::put('/ins/stats',    [NodeAPI::class, 'UpdateStats']);

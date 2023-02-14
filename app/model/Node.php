@@ -19,7 +19,7 @@ class Node extends Model
         'memory_overallocate',
         'disk',
         'disk_overallocate',
-        'max_upload_slice_size'
+        'addition'
     ];
     public $timestamps = true;
 
