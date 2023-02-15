@@ -33,6 +33,7 @@ use Webman\Route;
 Route::group('/api/public', function () {
     Route::get('/auth',         [Auth::class, 'GetStatus']);
     Route::post('/auth/login',  [Auth::class, 'Login']);
+    Route::get('/auth/logout',  [Auth::class, 'Logout']);
 });
 
 Route::group('/api/public', function () {

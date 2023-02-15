@@ -54,4 +54,15 @@ class Auth extends Model
             return json(['code' => $th->getCode(), 'msg' => $th->getMessage()])->withStatus($th->getCode());
         }
     }
+
+    public function Logout(Request $request)
+    {
+        try {
+            $request->session()->flush();
+
+            return json(['code' => 200]);
+        } catch (\Throwable $th) {
+            return json(['code' => $th->getCode(), 'msg' => $th->getMessage()])->withStatus($th->getCode());
+        }
+    }
 }
