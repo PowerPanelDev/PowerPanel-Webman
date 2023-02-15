@@ -2,11 +2,11 @@
 
 namespace app\controller\Admin;
 
+use app\class\Request;
 use app\model\Node;
 use app\model\NodeGroup;
 use app\util\Validate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use support\Request;
 
 class NodeController
 {
@@ -42,11 +42,11 @@ class NodeController
     public function Create(Request $request)
     {
         try {
-            $data = Validate::Input($request, self::$rules);
+            $data = $request->validate(self::$rules);
 
             NodeGroup::findOrFail($data['node_group_id']);
 
-            $node = new Node(Validate::Input($request, self::$rules));
+            $node = new Node($request->validate(self::$rules));
             $node->genToken();
             $node->save();
 
@@ -75,7 +75,7 @@ class NodeController
     public function Update(Request $request, int $nodeId)
     {
         try {
-            $data = Validate::Input($request, self::$rules);
+            $data = $request->validate(self::$rules);
 
             NodeGroup::findOrFail($data['node_group_id']);
             Node::findOrFail($nodeId)->fill($data)->save();

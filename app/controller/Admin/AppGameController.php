@@ -2,10 +2,10 @@
 
 namespace app\controller\Admin;
 
+use app\class\Request;
 use app\model\Game;
 use app\util\Validate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use support\Request;
 
 class AppGameController
 {
@@ -29,7 +29,7 @@ class AppGameController
     public function Create(Request $request)
     {
         try {
-            Game::create(Validate::Input($request, self::$rules));
+            Game::create($request->validate(self::$rules));
             return json(['code' => 200]);
         } catch (\Throwable $th) {
             return json(['code' => $th->getCode() ?: 500, 'msg' => $th->getMessage()])->withStatus($th->getCode() ?: 500);
@@ -53,7 +53,7 @@ class AppGameController
     public function Update(Request $request, int $gameId)
     {
         try {
-            Game::findOrFail($gameId)->fill(Validate::Input($request, self::$rules))->save();
+            Game::findOrFail($gameId)->fill($request->validate(self::$rules))->save();
 
             return json(['code' => 200]);
         } catch (ModelNotFoundException $e) {

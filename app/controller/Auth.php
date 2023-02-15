@@ -2,11 +2,11 @@
 
 namespace app\controller;
 
+use app\class\Request;
 use app\model\User;
 use app\util\Validate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use support\Model;
-use support\Request;
 use support\Response;
 
 class Auth extends Model
@@ -30,9 +30,9 @@ class Auth extends Model
     public function Login(Request $request)
     {
         try {
-            $data = Validate::Input($request, [
-                'name' => 'required',
-                'password' => 'min:6'
+            $data = $request->validate([
+                'name'      => 'required',
+                'password'  => 'required|min:6'
             ]);
 
             $user = User::wherePassword($data['password'])->where('name', $data['name'])->firstOrFail();
@@ -50,6 +50,17 @@ class Auth extends Model
             ]);
         } catch (ModelNotFoundException $e) {
             return json(['code' => 400, 'msg' => '用户名或密码错误。'])->withStatus(400);
+        } catch (\Throwable $th) {
+            return json(['code' => $th->getCode(), 'msg' => $th->getMessage()])->withStatus($th->getCode());
+        }
+    }
+
+    public function Logout(Request $request)
+    {
+        try {
+            $request->session()->flush();
+
+            return json(['code' => 200]);
         } catch (\Throwable $th) {
             return json(['code' => $th->getCode(), 'msg' => $th->getMessage()])->withStatus($th->getCode());
         }

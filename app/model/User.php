@@ -2,7 +2,6 @@
 
 namespace app\model;
 
-use app\util\Salt;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use support\Model;
 
@@ -17,13 +16,18 @@ class User extends Model
         return $this->hasManyThrough(Instance::class, InstanceRelationship::class, 'user_id', 'id', 'id', 'ins_id');
     }
 
+    public function permission()
+    {
+        return $this->hasOne(UserPermission::class, 'user_id', 'id');
+    }
+
     public function passwd(string $password)
     {
-        $this->password = hash('sha512', $password . Salt::Get());
+        $this->password = hash('sha512', $password . getenv('APP_SALT'));
     }
 
     static public function wherePassword(string $password)
     {
-        return self::where('password', hash('sha512', $password . Salt::Get()));
+        return self::where('password', hash('sha512', $password . getenv('APP_SALT')));
     }
 }

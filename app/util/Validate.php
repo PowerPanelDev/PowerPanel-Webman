@@ -3,7 +3,6 @@
 namespace app\util;
 
 use Rakit\Validation\Validator as RakitValidator;
-use support\Request;
 
 class Validate
 {
@@ -20,10 +19,10 @@ class Validate
         'in'                => '参数 :attribute 不属于可选范围'
     ];
 
-    static public function Input(Request $request, array $rules)
+    static public function Data(array $data, array $rules)
     {
         $validation = (new RakitValidator(self::$message))
-            ->validate($request->post(), $rules);
+            ->validate($data, $rules);
 
         $errors = $validation->errors();
         if ($errors->count())

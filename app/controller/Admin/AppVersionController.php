@@ -2,11 +2,11 @@
 
 namespace app\controller\Admin;
 
+use app\class\Request;
 use app\model\App;
 use app\model\AppVersion;
 use app\util\Validate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use support\Request;
 
 class AppVersionController
 {
@@ -31,7 +31,7 @@ class AppVersionController
     public function Create(Request $request)
     {
         try {
-            $data = Validate::Input($request, self::$rules);
+            $data = $request->validate(self::$rules);
             App::findOrFail($data['app_id']);
             AppVersion::create($data);
 
@@ -60,7 +60,7 @@ class AppVersionController
     public function Update(Request $request, int $versionId)
     {
         try {
-            $data = Validate::Input($request, self::$rules);
+            $data = $request->validate(self::$rules);
             App::findOrFail($data['app_id']);
             AppVersion::findOrFail($versionId)->fill($data)->save();
 
