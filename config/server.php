@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of webman.
  *
@@ -13,7 +14,7 @@
  */
 
 return [
-    'listen' => 'http://0.0.0.0:8080',
+    'listen' => 'http://0.0.0.0:' . (getenv('SERVER_PORT') ?: 8080),
     'transport' => 'tcp',
     'context' => [],
     'name' => 'webman',

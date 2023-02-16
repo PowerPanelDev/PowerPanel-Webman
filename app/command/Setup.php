@@ -40,6 +40,7 @@ class Setup extends Command
         $env['TIMEZONE'] = $helper->ask($input, $output, $tz);
 
         $env['WORKER_COUNT'] = cpu_count();
+        $env['SERVER_PORT'] = 8080;
         $env['APP_SALT'] = Random::String(16);
 
         $env = implode(PHP_EOL, array_map(fn (...$kv) => implode('=', $kv), array_keys($env), array_values($env)));
