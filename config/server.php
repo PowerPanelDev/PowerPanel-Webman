@@ -15,8 +15,14 @@
 
 return [
     'listen' => 'http://0.0.0.0:' . (getenv('SERVER_PORT') ?: 8080),
-    'transport' => 'tcp',
-    'context' => [],
+    'transport' => getenv('ENABLE_TLS') == 'true' ? 'ssl' : 'tcp',
+    'context' => [
+        'ssl' => [
+            'local_cert'  => getenv('TLS_CRT'),
+            'local_pk'    => getenv('TLS_KEY'),
+            'verify_peer' => false,
+        ]
+    ],
     'name' => 'webman',
     'count' => getenv('WORKER_COUNT'),
     'user' => '',

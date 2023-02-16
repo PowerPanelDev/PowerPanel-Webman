@@ -107,6 +107,10 @@ Route::group('/api/node', function () {
     Route::put('/ins/stats',    [NodeAPI::class, 'UpdateStats']);
 })->middleware([NodeAuth::class]);
 
+Route::options('[{path:.+}]', function () {
+    return response();
+});
+
 Route::group('/api/debug', function () {
     Route::get('/session', function ($request) {
         return json($request->session()->all());

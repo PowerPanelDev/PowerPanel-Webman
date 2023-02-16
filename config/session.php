@@ -56,9 +56,9 @@ return [
 
     'http_only' => true,
 
-    'secure' => false,
+    'secure' => true,
 
-    'same_site' => '',
+    'same_site' => 'none',
 
     'gc_probability' => [1, 1000],
 
