@@ -22,9 +22,8 @@ class NodeAPI
                 'node_id' => $node->id,
                 'node_token' => $node->node_token,
                 'node_port' => [
-                    'proxy' => parse_url($node->endpoint)['port'],
-                    'webman' => 9501,
-                    'websocket' => 9502,
+                    'webman' => $node->api_port,
+                    'websocket' => $node->ws_port,
                     'event' => 9503
                 ],
                 'storage_path' => [

@@ -52,7 +52,7 @@ class Instance
             return json([
                 'code' => 200,
                 'attributes' => [
-                    'endpoint' => ($token->node->enable_tls ? 'wss://' : 'ws://') . $token->node->endpoint . '/ws/console',
+                    'endpoint' => $token->node->getAddress('ws') . '/ws/console',
                     'token' => $token->token
                 ]
             ]);
