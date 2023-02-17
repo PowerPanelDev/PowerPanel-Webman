@@ -21,6 +21,9 @@ class Node extends Model
         'disk_overallocate',
         'addition'
     ];
+    protected $attributes = [
+        'addition' => '{"instance_data_path": "/data/power-data", "max_upload_slice_size": 10485760}'
+    ];
     public $timestamps = true;
 
     public function group()
