@@ -12,7 +12,9 @@ class Node extends Model
         'node_group_id',
         'name',
         'description',
-        'endpoint',
+        'host',
+        'api_port',
+        'ws_port',
         'enable_tls',
         'os',
         'memory',
@@ -20,6 +22,9 @@ class Node extends Model
         'disk',
         'disk_overallocate',
         'addition'
+    ];
+    protected $attributes = [
+        'addition' => '{"instance_data_path": "/data/power-data", "max_upload_slice_size": 10485760}'
     ];
     public $timestamps = true;
 
@@ -44,8 +49,12 @@ class Node extends Model
         $this->node_token = Random::String(64);
     }
 
-    public function getAddress()
+    public function getAddress($type = 'api')
     {
-        return ($this->enable_tls ? 'https://' : 'http://') . $this->endpoint;
+        $scheme = ($type == 'api' ? 'http' : 'ws') . ($this->enable_tls ? 's' : '');
+        $host = $this->host;
+        $port = $type == 'api' ? $this->api_port : $this->ws_port;
+
+        return $scheme . '://' . $host . ':' . $port;
     }
 }

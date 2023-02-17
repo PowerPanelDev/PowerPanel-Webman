@@ -16,7 +16,8 @@ class Validate
         'boolean'           => '参数 :attribute 必须为布尔值',
         'min'               => '参数 :attribute 长度过短',
         'max'               => '参数 :attribute 长度过长',
-        'in'                => '参数 :attribute 不属于可选范围'
+        'in'                => '参数 :attribute 不属于可选范围',
+        'between'           => '参数 :attribute 不在范围内'
     ];
 
     static public function Data(array $data, array $rules)

@@ -22,9 +22,8 @@ class NodeAPI
                 'node_id' => $node->id,
                 'node_token' => $node->node_token,
                 'node_port' => [
-                    'proxy' => parse_url($node->endpoint)['port'],
-                    'webman' => 9501,
-                    'websocket' => 9502,
+                    'webman' => $node->api_port,
+                    'websocket' => $node->ws_port,
                     'event' => 9503
                 ],
                 'storage_path' => [
@@ -38,6 +37,7 @@ class NodeAPI
                         '119.29.29.29'
                     ]
                 ],
+                // TODO TLS 相关设置
                 'max_token_count' => 1024,
                 'max_package_size' => $addition['max_upload_slice_size'] + 2 * 1024 * 1024,
                 'max_upload_slice_size' => $addition['max_upload_slice_size'],
