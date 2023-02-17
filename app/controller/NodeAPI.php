@@ -38,6 +38,7 @@ class NodeAPI
                         '119.29.29.29'
                     ]
                 ],
+                // TODO TLS 相关设置
                 'max_token_count' => 1024,
                 'max_package_size' => $addition['max_upload_slice_size'] + 2 * 1024 * 1024,
                 'max_upload_slice_size' => $addition['max_upload_slice_size'],
